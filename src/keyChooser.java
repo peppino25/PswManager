@@ -7,15 +7,19 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 
 
 public class keyChooser implements ActionListener{
     private static final Utilities utility = new Utilities();
+    private static JPasswordField secretKey;
+    private static final JPanel panel = new JPanel();
+    private static JLabel badPasswordLabel;
+
     public keyChooser(){
         frame();
     }
     public void frame(){
-        JPanel panel = new JPanel();
         JFrame window = new JFrame();
         window.setTitle("Secret Key registration");
         window.setSize(300,300);
@@ -26,28 +30,27 @@ public class keyChooser implements ActionListener{
         panel.setLayout(null);
         panel.setBackground(Color.lightGray);
 
-        JLabel label = new JLabel("Only numbers, max 10 chars.");
-        label.setBounds(56,10,200,25);
+        JLabel label = new JLabel("Secret key, max 20 characters");
+        label.setBounds(50,10,200,25);
         panel.add(label);
 
-
-        JPasswordField secretKey = new JPasswordField(10);
+        secretKey = new JPasswordField(10);
         secretKey.setBounds(55,35,170,25);
         panel.add(secretKey);
 
         JLabel label1 = new JLabel();
-        label1.setBounds(10,150,300,25);
+        label1.setBounds(15,150,300,25);
         label1.setText("This is a secretKey to encode the passwords");
         panel.add(label1);
 
         JLabel label2 = new JLabel();
-        label2.setBounds(60,170,300,25);
-        label2.setText("The input must be numerical");
+        label2.setBounds(65,170,300,25);
+        label2.setText("The input can be anything");
         panel.add(label2);
 
         JLabel label3 = new JLabel();
-        label3.setBounds(70,190,300,25);
-        label3.setText("Between 1 and 10 chars.");
+        label3.setBounds(65,190,300,25);
+        label3.setText("Between 10 and 20 chars.");
         panel.add(label3);
 
         JButton button = new JButton("Enter");
@@ -56,6 +59,13 @@ public class keyChooser implements ActionListener{
         button.setFocusPainted(false);
         button.addActionListener(this);
         panel.add(button);
+
+        badPasswordLabel = new JLabel("Password too long or short");
+        badPasswordLabel.setBounds(60,120,200,25);
+        badPasswordLabel.setForeground(Color.red);
+        badPasswordLabel.setVisible(false);
+        panel.add(badPasswordLabel);
+
 
 
 
@@ -66,35 +76,10 @@ public class keyChooser implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e){
-        String[] directoryPath = {"C:\\Program Files (x86)", System.getProperty("user.home") + File.separator + "Documents"};
-        String directoryName = "Passoword Manager";
-        String directoryChosen = "";
-
-        int counterOfError = 0;
-
-        // Tries to create a directory in one of the said path {directoryPath}.
-        for(String i:directoryPath){
-            try{
-                File directory = new File(i);
-                boolean isCreated = directory.mkdir();
-                if (isCreated){
-                    System.out.print("Directory created successfully in " + i);
-                    directoryChosen += i;
-                    break;
-                }
-                counterOfError += 1;
-
-            }catch (Exception ex){
-                System.out.print("Exception in the function actionPerformed");
-            }
-        }
-        // Check if the directory was not created.
-        if (counterOfError == 2){
-            System.out.print("Error creating the directory of the program");
+        if (!utility.isThePasswordGood(secretKey.getText())){
+            badPasswordLabel.setVisible(true);
             return;
         }
-
-        
 
 
 
