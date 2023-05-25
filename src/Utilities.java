@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
+import java.util.*;
 
 public class Utilities {
+    private final Random generateKey = new Random();
     public Utilities(){
 
     }
@@ -58,14 +59,27 @@ public class Utilities {
         return "0";
 
     }
-    public void createFile(String filePath){
-        filePath = filePath += "mukatte.dio";
+    public String createFile(String filePath, String fileNameAndExtension){
+        filePath = filePath += fileNameAndExtension;
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             fileWriter.close();
             System.out.println("The text file was created successfully");
+            return filePath;
         }catch (IOException e){
             System.out.println("An error occurred while creating the text file: " + e.getMessage());
+            return "0";
+        }
+    }
+
+    public void writer(String textToWrite, String filePath, Character token){
+        try {
+            FileWriter myWriter = new FileWriter(filePath);
+            myWriter.write(textToWrite);
+            myWriter.append(token);
+            myWriter.close();
+        }catch (IOException e){
+            System.out.println("An error occurred." + e.getMessage());
         }
     }
 
@@ -100,6 +114,41 @@ public class Utilities {
             String calculatedHash = hashingMethod(textToCompare);
 
             return calculatedHash.equals(hash);
+    }
+
+    public String Encryption(String textToEncrypt){
+        int key = generateKey.nextInt(1000,9999);
+
+        char[] textPreEncryption = textToEncrypt.toCharArray();
+
+        String encryptedText = "";
+
+        for (char chars:textPreEncryption){
+            encryptedText += (chars += key);
+        }
+
+        encryptedText += ".";
+        encryptedText += key;
+
+        return encryptedText;
+
+    }
+
+    public String Decryption(String textToDecrypt){
+        String[] tokens = textToDecrypt.split("[.]");
+        List<String> tokenList = new ArrayList<String>(Arrays.asList(tokens));
+
+        int key = Integer.parseInt(tokenList.get(1));
+        char[] encryptedTextCharArray = tokenList.get(0).toCharArray();
+
+        String decryptedText = "";
+
+        for (char chars:encryptedTextCharArray){
+            decryptedText += chars -= key;
+        }
+
+        return decryptedText;
+
     }
 
 }

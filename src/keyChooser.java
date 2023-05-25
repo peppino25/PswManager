@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -15,8 +17,10 @@ public class keyChooser implements ActionListener{
     private static JPasswordField secretKey;
     private static final JPanel panel = new JPanel();
     private static JLabel badPasswordLabel;
+    private static String directory;
 
-    public keyChooser(){
+    public keyChooser(String directoryChosen){
+        directory = directoryChosen;
         frame();
     }
     public void frame(){
@@ -80,10 +84,14 @@ public class keyChooser implements ActionListener{
             badPasswordLabel.setVisible(true);
             return;
         }
+        String createFile = utility.createFile(directory,"mukatte.dio");
 
+        if(createFile.equals("0")){
+            return;
+        }
 
-
-
+        String hash = utility.hashingMethod(secretKey.getText());
+        utility.writer(hash,directory,null);
 
     }
 

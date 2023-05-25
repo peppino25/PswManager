@@ -16,10 +16,7 @@ public class Main {
         if (directoryChosen.equals("0")){
             System.out.print("Problem creating the directory");
         }
-        new keyChooser();
-
-
-
+        new keyChooser(directoryChosen);
 
 
 
