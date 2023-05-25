@@ -25,8 +25,8 @@ public class keyLogin implements ActionListener{
         panel.setLayout(null);
         panel.setBackground(Color.lightGray);
 
-        JLabel label = new JLabel("Only numbers, max 10 chars.");
-        label.setBounds(56,10,200,25);
+        JLabel label = new JLabel("Insert the secret key");
+        label.setBounds(80,10,200,25);
         panel.add(label);
 
 
@@ -38,16 +38,6 @@ public class keyLogin implements ActionListener{
         label1.setBounds(10,150,300,25);
         label1.setText("This is a secretKey to encode the passwords");
         panel.add(label1);
-
-        JLabel label2 = new JLabel();
-        label2.setBounds(60,170,300,25);
-        label2.setText("The input must be numerical");
-        panel.add(label2);
-
-        JLabel label3 = new JLabel();
-        label3.setBounds(70,190,300,25);
-        label3.setText("Between 1 and 10 chars.");
-        panel.add(label3);
 
         JButton button = new JButton("Enter");
         button.setBounds(40,85,200,25);

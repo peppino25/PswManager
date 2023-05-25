@@ -10,13 +10,14 @@ import java.io.File;
 
 
 public class keyChooser implements ActionListener{
+    private static final Utilities utility = new Utilities();
     public keyChooser(){
         frame();
     }
     public void frame(){
         JPanel panel = new JPanel();
         JFrame window = new JFrame();
-        window.setTitle("Secret Key login");
+        window.setTitle("Secret Key registration");
         window.setSize(300,300);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.add(panel);
@@ -65,7 +66,38 @@ public class keyChooser implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e){
-        String[] directoryPath = {"C:\\Program Files (x86)\\PasswordManager", System.getProperty("user.home") + File.separator + "Documents"};
+        String[] directoryPath = {"C:\\Program Files (x86)", System.getProperty("user.home") + File.separator + "Documents"};
+        String directoryName = "Passoword Manager";
+        String directoryChosen = "";
+
+        int counterOfError = 0;
+
+        // Tries to create a directory in one of the said path {directoryPath}.
+        for(String i:directoryPath){
+            try{
+                File directory = new File(i);
+                boolean isCreated = directory.mkdir();
+                if (isCreated){
+                    System.out.print("Directory created successfully in " + i);
+                    directoryChosen += i;
+                    break;
+                }
+                counterOfError += 1;
+
+            }catch (Exception ex){
+                System.out.print("Exception in the function actionPerformed");
+            }
+        }
+        // Check if the directory was not created.
+        if (counterOfError == 2){
+            System.out.print("Error creating the directory of the program");
+            return;
+        }
+
+        
+
+
+
 
 
     }
